@@ -19,5 +19,9 @@ From here you will need to create a `.buildpacks` file which contains (in order)
     https://github.com/heroku/heroku-buildpack-nodejs.git#0198c71daa8
     https://github.com/heroku/heroku-buildpack-ruby.git#v86
 
+## License
+
+MIT
+
 ## FAQ
 
