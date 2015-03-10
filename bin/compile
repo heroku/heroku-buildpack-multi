@@ -26,7 +26,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   if [ "$url" != "" ]; then
     echo "=====> Downloading Buildpack: $url"
 
-    if [[ "$url" =~ \.tgz$ ]]; then
+    if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
       mkdir -p "$dir"
       curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
     else
