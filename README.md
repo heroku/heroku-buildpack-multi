@@ -11,7 +11,7 @@ allows one to multiple other buildpacks in a single deploy process. This helps s
 
 To use this buildpack you'll first need to set it as your custom buildpack:
 
-    $ heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-multi.git
+    $ heroku buildpack:set https://github.com/heroku/heroku-buildpack-multi.git
 
 From here you will need to create a `.buildpacks` file which contains (in order) the buildpacks you wish to run when you deploy:
 
