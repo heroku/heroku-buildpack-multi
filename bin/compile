@@ -61,6 +61,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
     else
       echo "Couldn't detect any framework for this buildpack. Skipping."
+      exit 1
     fi
   fi
 done
