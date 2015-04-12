@@ -16,6 +16,9 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
+  subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
+  BUILDPACK==$(echo $BUILDPACK | cut -d"=" -f 2)
+
   url=${BUILDPACK%#*}
   branch=${BUILDPACK#*#}
 
@@ -49,7 +52,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
-      $dir/bin/compile $1 $2 $3
+      $dir/bin/compile $1/$subdir $2 $3
 
       if [ $? != 0 ]; then
         exit 1
