@@ -9,7 +9,7 @@ directory.
 
 ## Usage
 
-    $ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+    $ heroku config:add BUILDPACK_URL=https://github.com/Stibbons/heroku-buildpack-multi-subdir.git
 
     $ cat .buildpacks
     subdir1=https://github.com/heroku/heroku-buildpack-nodejs.git#0198c71daa8
