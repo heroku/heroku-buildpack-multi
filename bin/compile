@@ -80,11 +80,7 @@ fi
 
 export PATH=/app/.heroku/node/bin:$PATH
 cd $1
-ls
-ls /app
-ls /app/.heroku
-ls /app/.heroku/node
-ls /app/.heroku/node/bin
+ls -a
 pip install virtualenv
 virtualenv --version
 node --version
