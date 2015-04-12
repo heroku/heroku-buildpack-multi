@@ -78,6 +78,7 @@ if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework ($framework)."
 fi
 
-cd $1
+export PATH=/app/.heroku/node/bin:$PATH
+cd /app
 ls
 python ./install/install.py install:all
