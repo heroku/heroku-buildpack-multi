@@ -114,8 +114,11 @@ cd $1
 ls -a $1
 
 ls -la $1/backend
+ls -la $1/backend/.heroku/python/bin/
 
+cat $1/backend/.profile.d/python.sh
 source $1/backend/.profile.d/python.sh
+export PATH=$1/backend/.heroku/python/bin/:$PATH
 
 python --version
 which python
