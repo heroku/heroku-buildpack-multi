@@ -111,7 +111,11 @@ fi
 
 echo "\$1=$1"
 cd $1
-ls -a
+ls -a $1
+
+ls -la $1/backend
+
+source $1/backend/.profile.d/python.sh
 
 python --version
 which python
