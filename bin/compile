@@ -17,7 +17,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   rm -rf $dir
 
   subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
-  BUILDPACK==$(echo $BUILDPACK | cut -d"=" -f 2)
+  BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
 
   url=${BUILDPACK%#*}
   branch=${BUILDPACK#*#}
@@ -27,7 +27,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 
   if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url"
+    echo "=====> Downloading Buildpack: $url, in subdir $subdir"
 
     if [[ "$url" =~ \.tgz$ ]]; then
       mkdir -p "$dir"
