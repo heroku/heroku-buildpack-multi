@@ -133,7 +133,6 @@ which node
 ls -la /app
 
 ls /app/.profile.d/
-cat /app/.profile.d/python.sh
 cat /app/Procfile
 
 pip --version
