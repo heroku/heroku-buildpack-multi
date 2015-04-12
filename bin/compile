@@ -78,10 +78,9 @@ if [ -e $1/last_pack_release.out ]; then
   echo "Using release configuration from last framework ($framework)."
 fi
 
-export PATH=/app/.heroku/node/bin:$PATH
 cd $1
 ls -a
-pip install virtualenv
-virtualenv --version
 node --version
+virtualenv --version
+pip install virtualenv
 python ./install/install.py install:all
