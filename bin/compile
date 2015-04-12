@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
-set +x
+set -x
 
 function indent() {
   c='s/^/       /'
@@ -28,7 +28,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 
   if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url, in subdir $subdir"
+    echo "=====> Downloading Buildpack: $url, branch: $branch, in subdir: $subdir"
 
     if [[ "$url" =~ \.tgz$ ]]; then
       mkdir -p "$dir"
