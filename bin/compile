@@ -19,7 +19,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
   subdir=""
   if [[ "=" == "*$BUILDPACK*" ]]; then
-    subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
+    subdir="/"$(echo $BUILDPACK | cut -d"=" -f 1)
     BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
   fi
 
@@ -52,11 +52,11 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
-    framework=$($dir/bin/detect $1/$subdir)
+    framework=$($dir/bin/detect $1$subdir)
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
-      $dir/bin/compile $1/$subdir $2 $3
+      $dir/bin/compile $1$subdir $2 $3
 
       if [ $? != 0 ]; then
         exit 1
@@ -68,7 +68,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1/$subdir > $1/last_pack_release.out
+        $dir/bin/release $1$subdir > $1/last_pack_release.out
       fi
     fi
   fi
