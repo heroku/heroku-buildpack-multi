@@ -79,6 +79,6 @@ if [ -e $1/last_pack_release.out ]; then
 fi
 
 export PATH=/app/.heroku/node/bin:$PATH
-cd /app
+cd $1
 ls
 python ./install/install.py install:all
