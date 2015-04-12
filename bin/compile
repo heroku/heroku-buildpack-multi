@@ -49,7 +49,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
-    framework=$($dir/bin/detect $1)
+    framework=$($dir/bin/detect $1/$subdir)
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
@@ -65,7 +65,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1 > $1/last_pack_release.out
+        $dir/bin/release $1/$subdir > $1/last_pack_release.out
       fi
     fi
   fi
