@@ -116,9 +116,11 @@ ls -a $1
 ls -la $1/backend
 ls -la $1/backend/.heroku/python/bin/
 
-cat $1/backend/.profile.d/python.sh
-source $1/backend/.profile.d/python.sh
 export PATH=$1/backend/.heroku/python/bin/:$PATH
+export PYTHONHOME=$1/backend/.heroku/python
+export LIBRARY_PATH=$1/backend/.heroku/python/vendor/lib:$1/backend/.heroku/python/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=$1/backend/.heroku/python/vendor/lib:$1/backend/.heroku/python/lib:$LD_LIBRARY_PATH
+export LANG=${LANG:-en_US.UTF-8}
 
 python --version
 which python
