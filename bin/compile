@@ -80,4 +80,4 @@ fi
 
 cd $1
 ls
-python ./install/install.py install:prod
+python ./install/install.py install:all
