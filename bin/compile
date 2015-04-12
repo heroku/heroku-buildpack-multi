@@ -116,6 +116,8 @@ ls -a $1
 ls -la $1/backend
 ls -la $1/backend/.heroku/python/bin/
 
+ln -s $1/backend/.heroku /app/.heroku
+
 export PATH=$1/backend/.heroku/python/bin/:$PATH
 export PYTHONHOME=$1/backend/.heroku/python
 export LIBRARY_PATH=$1/backend/.heroku/python/vendor/lib:$1/backend/.heroku/python/lib:$LIBRARY_PATH
@@ -129,6 +131,10 @@ node --version
 which node
 
 ls -la /app
+
+ls /app/.profile.d/
+cat /app/.profile.d/python.sh
+cat /app/Procfile
 
 pip --version
 pip install virtualenv
