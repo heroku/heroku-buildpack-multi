@@ -62,7 +62,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 
   if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url, branch: $branch, in subdir: $subdir"
+    echo "=====> Downloading Buildpack: $url, branch: $branch, to tmp dir $dir, against source's subdir: $subdir"
 
     if [[ "$url" =~ \.tgz$ ]]; then
       mkdir -p "$dir"
