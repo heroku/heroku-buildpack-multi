@@ -105,7 +105,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     cd $1
     mkdir -p .heroku
     if [[ -d $1$subdir/.heroku ]]; then
-        rsync --recursive $1$subdir/.heroku $1/.heroku
+        rsync --recursive --copy-links $1$subdir/.heroku $1/.heroku
     fi
   fi
 done
