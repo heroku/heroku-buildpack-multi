@@ -40,6 +40,7 @@ echo "libffi.pc is in-place at $(pwd)/vendor/lib/pkgconfig/libffi.pc, libffi-bas
 fi
 
 cd "$PREV_DIR"
+echo "-----> Root directory: $1"
 
 ##########################################
 
@@ -105,8 +106,9 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     cd $1
     mkdir -p .heroku
     if [[ -d $1$subdir/.heroku ]]; then
-        rsync --recursive --copy-links $1$subdir/.heroku $1/.heroku
+        rsync --recursive --copy-links -v $1$subdir/.heroku $1/
     fi
+    find $1/.heroku
   fi
 done
 
