@@ -99,7 +99,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1$subdir > $1/last_pack_release.out
+        $dir/bin/release $1$subdir >> $1/last_pack_release.out
       fi
     fi
     cd $1
@@ -110,7 +110,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 done
 
-if [ -e $1/last_pack_release.out ]; then
+if [[ -e $1/last_pack_release.out ]]; then
   echo "Using release configuration from last framework ($framework)."
 fi
 
