@@ -111,7 +111,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     if [[ -d $1$subdir/.profile.d ]]; then
         rsync --recursive --copy-links -v $1$subdir/.profile.d $1/
 
-        FILES=$1$subdir/.profile.d
+        FILES=$1$subdir/.profile.d/*
         for f in $FILES
         do
           echo "-----> Sourcing $f..."
