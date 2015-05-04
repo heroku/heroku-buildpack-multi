@@ -65,7 +65,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   if [ "$url" != "" ]; then
     echo "=====> Downloading Buildpack: $url, branch: $branch, to tmp dir $dir, against source's subdir: $subdir"
 
-    if [[ "$url" =~ \.tgz$ ]]; then
+    if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
       mkdir -p "$dir"
       curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
     else
@@ -102,6 +102,9 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       if [ -x $dir/bin/release ]; then
         $dir/bin/release $1$subdir >> $1/last_pack_release.out
       fi
+    else
+      echo "Couldn't detect any framework for this buildpack. Exiting."
+      exit 1
     fi
     cd $1
     mkdir -p .heroku
