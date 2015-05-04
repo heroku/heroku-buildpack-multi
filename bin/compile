@@ -108,7 +108,16 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     if [[ -d $1$subdir/.heroku ]]; then
         rsync --recursive --copy-links -v $1$subdir/.heroku $1/
     fi
-    find $1/.heroku
+    if [[ -d $1$subdir/.profile.d ]]; then
+        rsync --recursive --copy-links -v $1$subdir/.profile.d $1/
+
+        FILES=$1$subdir/.profile.d
+        for f in $FILES
+        do
+          echo "-----> Sourcing $f..."
+          source $f
+        done
+    fi
   fi
 done
 
@@ -120,16 +129,11 @@ echo "\$1=$1"
 cd $1
 ls -a $1
 
-ls -la $1/backend
-ls -la $1/backend/.heroku/python/bin/
+ls -la $1
+ls -la $1/.heroku/python/bin/
 
-ln -s $1/backend/.heroku /app/.heroku
+ln -s $1/.heroku /app/.heroku
 
-export PATH=$1/backend/.heroku/python/bin/:$PATH
-export PYTHONHOME=$1/backend/.heroku/python
-export LIBRARY_PATH=$1/backend/.heroku/python/vendor/lib:$1/backend/.heroku/python/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=$1/backend/.heroku/python/vendor/lib:$1/backend/.heroku/python/lib:$LD_LIBRARY_PATH
-export LANG=${LANG:-en_US.UTF-8}
 
 python --version
 which python
