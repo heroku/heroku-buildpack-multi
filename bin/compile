@@ -114,8 +114,10 @@ for BUILDPACK in $(cat $1/.buildpacks); do
         FILES=$1$subdir/.profile.d/*
         for f in $FILES
         do
-          echo "-----> Sourcing $f..."
-          source $f
+            if [[ -f $f ]]; then
+                echo "-----> Sourcing $f..."
+                source $f
+            fi
         done
     fi
   fi
