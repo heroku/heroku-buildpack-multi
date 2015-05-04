@@ -109,10 +109,10 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     cd $1
     mkdir -p .heroku
     if [[ -d $1$subdir/.heroku ]]; then
-        rsync --recursive --copy-links -v $1$subdir/.heroku $1/
+        rsync --recursive --copy-links $1$subdir/.heroku $1/
     fi
     if [[ -d $1$subdir/.profile.d ]]; then
-        rsync --recursive --copy-links -v $1$subdir/.profile.d $1/
+        rsync --recursive --copy-links $1$subdir/.profile.d $1/
 
         FILES=$1$subdir/.profile.d/*
         for f in $FILES
