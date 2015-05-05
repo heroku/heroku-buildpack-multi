@@ -88,7 +88,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
-      $dir/bin/compile $1$subdir $2 $3
+      $dir/bin/compile $1 $2 $3 $1$subdir
 
       if [ $? != 0 ]; then
         exit 1
@@ -100,7 +100,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1 >> $1/last_pack_release.out
+        $dir/bin/release $1 > $1/last_pack_release.out
       fi
     else
       echo "Couldn't detect any framework for this buildpack. Exiting."
@@ -111,10 +111,10 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # if [[ -d $1$subdir/.heroku ]]; then
     #     rsync --recursive --copy-links $1$subdir/.heroku $1/
     # fi
-    if [[ -d $1$subdir/.profile.d ]]; then
+    if [[ -d $1/.profile.d ]]; then
         # rsync --recursive $1$subdir/.profile.d $1/
 
-        FILES=$1$subdir/.profile.d/*
+        FILES=$1/.profile.d/*
         for f in $FILES
         do
             if [[ -f $f ]]; then
