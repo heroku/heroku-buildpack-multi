@@ -100,19 +100,19 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1$subdir >> $1/last_pack_release.out
+        $dir/bin/release $1 >> $1/last_pack_release.out
       fi
     else
       echo "Couldn't detect any framework for this buildpack. Exiting."
       exit 1
     fi
     cd $1
-    mkdir -p .heroku
-    if [[ -d $1$subdir/.heroku ]]; then
-        rsync --recursive --copy-links $1$subdir/.heroku $1/
-    fi
+    # mkdir -p .heroku
+    # if [[ -d $1$subdir/.heroku ]]; then
+    #     rsync --recursive --copy-links $1$subdir/.heroku $1/
+    # fi
     if [[ -d $1$subdir/.profile.d ]]; then
-        rsync --recursive --copy-links $1$subdir/.profile.d $1/
+        # rsync --recursive $1$subdir/.profile.d $1/
 
         FILES=$1$subdir/.profile.d/*
         for f in $FILES
