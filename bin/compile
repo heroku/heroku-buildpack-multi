@@ -84,7 +84,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
-    framework=$($dir/bin/detect $1$subdir)
+    framework=$($dir/bin/detect $1/$subdir)
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
@@ -108,13 +108,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       exit 1
     fi
     cd $1
-    # mkdir -p .heroku
-    # if [[ -d $1$subdir/.heroku ]]; then
-    #     rsync --recursive --copy-links $1$subdir/.heroku $1/
-    # fi
     if [[ -d $1/.profile.d ]]; then
-        # rsync --recursive $1$subdir/.profile.d $1/
-
         FILES=$1/.profile.d/*
         for f in $FILES
         do
