@@ -107,19 +107,6 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       echo "Couldn't detect any framework for this buildpack. Exiting."
       exit 1
     fi
-    cd $1
-    if [[ -d $1/.profile.d ]]; then
-        FILES=$1/.profile.d/*
-        for f in $FILES
-        do
-            if [[ -f $f ]]; then
-                echo "-----> Content of file to source $f..."
-                cat $f
-                echo "-----> Sourcing $f..."
-                source $f
-            fi
-        done
-    fi
   fi
 done
 
