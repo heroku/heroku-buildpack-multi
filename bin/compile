@@ -88,7 +88,9 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
-      echo "-----> Compiling with BUILD_DIR: $1, SRC_DIR: 1$subdir"
+      echo "-----> ls $1"
+      ls $1
+      echo "-----> Compiling with BUILD_DIR: $1, SRC_DIR: $1$subdir"
       $dir/bin/compile $1 $2 $3 $1$subdir
 
       if [ $? != 0 ]; then
