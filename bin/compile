@@ -118,6 +118,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
         for f in $FILES
         do
             if [[ -f $f ]]; then
+                echo "-----> Content of file to source $f..."
+                cat $f
                 echo "-----> Sourcing $f..."
                 source $f
             fi
