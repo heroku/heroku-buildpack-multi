@@ -126,29 +126,3 @@ done
 if [[ -e $1/last_pack_release.out ]]; then
   echo "Using release configuration from last framework ($framework)."
 fi
-
-echo "\$1=$1"
-cd $1
-ls -a $1
-
-ls -la $1
-ls -la $1/.heroku/python/bin/
-
-ln -s $1/.heroku /app/.heroku
-
-
-python --version
-which python
-
-node --version
-which node
-
-ls -la /app
-
-ls /app/.profile.d/
-cat /app/Procfile
-
-pip --version
-pip install virtualenv
-virtualenv --version
-python ./install/install.py install:all
