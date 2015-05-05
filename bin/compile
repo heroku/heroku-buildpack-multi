@@ -51,7 +51,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
 
   subdir=""
   if [[ $BUILDPACK == *'='* ]]; then
-    subdir="/"$(echo $BUILDPACK | cut -d"=" -f 1)
+    subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
     BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
   fi
 
