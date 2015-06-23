@@ -30,6 +30,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       mkdir -p "$dir"
       curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
     else
+      echo "=====> Cloning: $url"
       git clone $url $dir >/dev/null 2>&1
     fi
     cd $dir
@@ -41,6 +42,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
+    echo "=====> Detecting framework..."
     framework=$($dir/bin/detect $1)
 
     if [ $? == 0 ]; then
