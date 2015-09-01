@@ -72,7 +72,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
         cat $dir/export
         source $dir/export
         echo "-----> Copying to $profile_dir/$subdir"
-        cp -v $profile_dir/$subdir
+        cp -v $dir/export $profile_dir/$subdir
       fi
 
       if [ -x $dir/bin/release ]; then
