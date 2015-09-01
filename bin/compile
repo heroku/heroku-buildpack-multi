@@ -13,8 +13,8 @@ function indent() {
 
 unset GIT_DIR
 
-profile_dir=$1/.profile.d
-mkdir -p $profile_dir
+export_dir=$1/.export.d
+mkdir -p $export_dir
 
 for BUILDPACK in $(cat $1/.buildpacks); do
   dir=$(mktemp -t buildpackXXXXX)
@@ -71,8 +71,8 @@ for BUILDPACK in $(cat $1/.buildpacks); do
         echo "-----> Sourcing $dir/export"
         cat $dir/export
         source $dir/export
-        echo "-----> Copying to $profile_dir/$subdir"
-        cp -v $dir/export $profile_dir/$subdir
+        echo "-----> Copying to $export_dir/$subdir"
+        cp -v $dir/export $export_dir/$subdir
       fi
 
       if [ -x $dir/bin/release ]; then
