@@ -91,7 +91,7 @@ fi
 
 cd $1
 
-if [[ -e .Buildfile]]
+if [[ -e .Buildfile]]; then
     echo "-----> Buildfile content:"
     cat .Buildfile
     echo "-----> PWD=$PWD"
