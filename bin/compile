@@ -88,3 +88,22 @@ done
 if [[ -e $1/last_pack_release.out ]]; then
   echo "Using release configuration from last framework ($framework)."
 fi
+
+cd $1
+
+if [[ -e .Buildfile]]
+    echo "-----> Buildfile content:"
+    cat .Buildfile
+    echo "-----> PWD=$PWD"
+    echo "-----> PATH=$PATH"
+    echo "-----> PYTHONPATH=$PYTHONPATH"
+    echo "-----> PYTHONHOME=$PYTHONHOME"
+    echo "-----> ls"
+    ls
+    echo "-----> ls .heroku"
+    ls .heroku
+    echo "-----> ls .heroku/python"
+    ls .heroku/python
+
+    source .Buildfile
+fi
