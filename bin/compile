@@ -105,6 +105,8 @@ if [[ -e .Buildfile ]]; then
     echo "-----> ls .heroku/python"
     ls .heroku/python
     find .heroku/python | head -n 200
+    which python
+    which pip
 
     source .Buildfile
 fi
