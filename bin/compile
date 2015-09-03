@@ -3,6 +3,13 @@
 set -e
 set -x
 
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
+ROOT_DIR=$(dirname $BIN_DIR)
+
+
 function indent() {
   c='s/^/       /'
   case $(uname) in
@@ -11,108 +18,195 @@ function indent() {
   esac
 }
 
-unset GIT_DIR
+(
+    unset GIT_DIR
 
-export_dir=$1/.export.d
-mkdir -p $export_dir
+    export_dir=$BUILD_DIR/.export.d
+    mkdir -p $export_dir
 
-for BUILDPACK in $(cat $1/.buildpacks); do
-  dir=$(mktemp -t buildpackXXXXX)
-  rm -rf $dir
+    for BUILDPACK in $(cat $BUILD_DIR/.buildpacks); do
+      dir=$(mktemp -t buildpackXXXXX)
+      rm -rf $dir
 
-  subdir=""
-  if [[ $BUILDPACK == *'='* ]]; then
-    subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
-    BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
-  fi
-
-  url=${BUILDPACK%#*}
-  branch=${BUILDPACK#*#}
-
-  if [ "$branch" == "$url" ]; then
-    branch=""
-  fi
-
-  if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url, branch: $branch, to tmp dir $dir, against source's subdir: $subdir"
-
-    if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
-      mkdir -p "$dir"
-      curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
-    else
-      git clone $url $dir >/dev/null 2>&1
-      if [ -f "$dir/.gitmodules" ]; then
-        echo "=====> Detected git submodules. Initializing..."
-        (cd $dir && git submodule update --init --recursive)
+      subdir=""
+      if [[ $BUILDPACK == *'='* ]]; then
+        subdir=$(echo $BUILDPACK | cut -d"=" -f 1)
+        BUILDPACK=$(echo $BUILDPACK | cut -d"=" -f 2)
       fi
+
+      url=${BUILDPACK%#*}
+      branch=${BUILDPACK#*#}
+
+      if [ "$branch" == "$url" ]; then
+        branch=""
+      fi
+
+      if [ "$url" != "" ]; then
+        echo "=====> Downloading Buildpack: $url, branch: $branch, to tmp dir $dir, against source's subdir: $subdir"
+
+        if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
+          mkdir -p "$dir"
+          curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
+        else
+          git clone $url $dir >/dev/null 2>&1
+          if [ -f "$dir/.gitmodules" ]; then
+            echo "=====> Detected git submodules. Initializing..."
+            (cd $dir && git submodule update --init --recursive)
+          fi
+        fi
+        cd $dir
+
+        if [ "$branch" != "" ]; then
+          git checkout $branch >/dev/null 2>&1
+        fi
+
+        # we'll get errors later if these are needed and don't exist
+        chmod -f +x $dir/bin/{detect,compile,release} || true
+
+        framework=$($dir/bin/detect $BUILD_DIR/$subdir)
+
+        if [ $? == 0 ]; then
+          echo "=====> Detected Framework: $framework"
+          echo "-----> Compiling with BUILD_DIR: $1, SUB_DIR: $subdir"
+          $dir/bin/compile $1 $2 $3 $subdir
+
+          if [ $? != 0 ]; then
+            exit 1
+          fi
+
+          # check if the buildpack left behind an environment for subsequent ones
+          if [ -e $dir/export ]; then
+            echo "-----> Sourcing $dir/export"
+            cat $dir/export
+            source $dir/export
+            echo "-----> Copying to $export_dir/$subdir"
+            cp -v $dir/export $export_dir/$subdir
+          fi
+
+          if [ -x $dir/bin/release ]; then
+            $dir/bin/release $1 > $1/last_pack_release.out
+          fi
+        else
+          echo "Couldn't detect any framework for this buildpack. Exiting."
+          exit 1
+        fi
+      fi
+    done
+
+    if [[ -e $1/last_pack_release.out ]]; then
+      echo "Using release configuration from last framework ($framework)."
     fi
-    cd $dir
 
-    if [ "$branch" != "" ]; then
-      git checkout $branch >/dev/null 2>&1
-    fi
-
-    # we'll get errors later if these are needed and don't exist
-    chmod -f +x $dir/bin/{detect,compile,release} || true
-
-    framework=$($dir/bin/detect $1/$subdir)
-
-    if [ $? == 0 ]; then
-      echo "=====> Detected Framework: $framework"
-      echo "-----> Compiling with BUILD_DIR: $1, SUB_DIR: $subdir"
-      $dir/bin/compile $1 $2 $3 $subdir
-
-      if [ $? != 0 ]; then
-        exit 1
-      fi
-
-      # check if the buildpack left behind an environment for subsequent ones
-      if [ -e $dir/export ]; then
-        echo "-----> Sourcing $dir/export"
-        cat $dir/export
-        source $dir/export
-        echo "-----> Copying to $export_dir/$subdir"
-        cp -v $dir/export $export_dir/$subdir
-      fi
-
-      if [ -x $dir/bin/release ]; then
-        $dir/bin/release $1 > $1/last_pack_release.out
-      fi
-    else
-      echo "Couldn't detect any framework for this buildpack. Exiting."
-      exit 1
-    fi
-  fi
-done
-
-if [[ -e $1/last_pack_release.out ]]; then
-  echo "Using release configuration from last framework ($framework)."
-fi
+)
 
 cd $1
 
-if [[ -e .Buildfile ]]; then
-    echo "-----> Buildfile content:"
-    cat .Buildfile
-    echo "-----> PWD=$PWD"
-    echo "-----> PATH=$PATH"
-    echo "-----> PYTHONPATH=$PYTHONPATH"
-    echo "-----> PYTHONHOME=$PYTHONHOME"
-    echo "-----> ls"
-    ls
-    echo "-----> ls .heroku"
-    ls .heroku
-    echo "-----> ls .heroku/python"
-    ls .heroku/python
-    echo "-----> ls -la .heroku/python/bin"
-    ls -la .heroku/python/bin
-    cat .heroku/python/bin/python
-    cat .heroku/python/bin/pip
-    find .heroku/python | head -n 200
-    which python
-    which pip
-    python --version
-    pip --version
 
-    source .Buildfile
+# Does some serious copying.
+deep-cp() {
+  declare source="$1" target="$2"
+
+  mkdir -p "$target"
+
+  # cp doesn't like being called without source params,
+  # so make sure they expand to something first.
+  # subshell to avoid surprising caller with shopts.
+  (
+    shopt -s nullglob dotglob
+    set -- "$source"/!(tmp|.|..)
+    [[ $# == 0 ]] || cp -a "$@" "$target"
+  )
+}
+
+# Does some serious moving.
+deep-mv() {
+  deep-cp "$1" "$2"
+  deep-rm "$1"
+}
+
+# Does some serious deleting.
+deep-rm() {
+  # subshell to avoid surprising caller with shopts.
+  (
+    shopt -s dotglob
+    rm -rf "$1"/!(.curlrc|.netrc|tmp|.|..)
+  )
+}
+
+
+if [[ -e .Buildfile ]]; then
+    echo "-----> Buildfile found. Content:"
+    cat .Buildfile
+
+    (
+
+        echo "-----> BIN_DIR=$BIN_DIR"     # /tmp/buildpackgxoEQ/bin
+        echo "-----> ROOT_DIR=$ROOT_DIR"   # /tmp/buildpackgxoEQ
+        echo "-----> BUILD_DIR=$BUILD_DIR" # /tmp/build_57c17093de9cac714bf607cc0827c297/Stibbons-Squirrel-1c5b6d9
+        echo "-----> CACHE_DIR=$CACHE_DIR"
+        echo "-----> ENV_DIR=$ENV_DIR"
+        echo "-----> SUB_DIR=$SUB_DIR"     # backend
+
+        APP_DIR='/app'
+
+        bpwatch start compile
+
+        # Copy Anvil app dir to temporary storage...
+        bpwatch start anvil_appdir_stage
+            deep-rm $APP_DIR
+        bpwatch stop anvil_appdir_stage
+
+        # Copy Application code in.
+        bpwatch start appdir_stage
+            deep-mv $BUILD_DIR $APP_DIR
+        bpwatch stop appdir_stage
+
+        # Set new context.
+        ORIG_BUILD_DIR=$BUILD_DIR
+        BUILD_DIR=$APP_DIR
+
+        cd $BUILD_DIR
+
+        echo "-----> PWD=$PWD"
+        echo "-----> PATH=$PATH"
+        echo "-----> PYTHONPATH=$PYTHONPATH"
+        echo "-----> PYTHONHOME=$PYTHONHOME"
+        echo "-----> ls"
+        ls
+        echo "-----> ls .heroku"
+        ls .heroku
+        echo "-----> ls .heroku/python"
+        ls .heroku/python
+        echo "-----> ls -la .heroku/python/bin"
+        ls -la .heroku/python/bin
+        cat .heroku/python/bin/pip
+        find .heroku/python | head -n 200
+        which python
+        which pip
+        python --version
+        pip --version
+
+        source .Buildfile
+
+        # Store new artifacts in cache.
+        bpwatch start dump_cache
+          for dir in $CACHED_DIRS; do
+            rm -rf $CACHE_DIR/$dir
+            cp -R $dir $CACHE_DIR/
+          done
+        bpwatch stop dump_cache
+
+        # ### Fin.
+        bpwatch start appdir_commit
+          deep-mv $BUILD_DIR $ORIG_BUILD_DIR
+        bpwatch stop appdir_commit
+
+        bpwatch start anvil_appdir_commit
+          if [ "$SLUG_ID" ]; then
+            deep-mv $TMP_APP_DIR $APP_DIR
+          fi
+
+        bpwatch stop anvil_appdir_commit
+        bpwatch stop compile
+    )
 fi
