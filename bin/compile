@@ -102,44 +102,44 @@ function indent() {
 cd $1
 
 
-# Does some serious copying.
-deep-cp() {
-  declare source="$1" target="$2"
-
-  mkdir -p "$target"
-
-  # cp doesn't like being called without source params,
-  # so make sure they expand to something first.
-  # subshell to avoid surprising caller with shopts.
-  (
-    shopt -s nullglob dotglob
-    set -- "$source"/!(tmp|.|..)
-    [[ $# == 0 ]] || cp -a "$@" "$target"
-  )
-}
-
-# Does some serious moving.
-deep-mv() {
-  deep-cp "$1" "$2"
-  deep-rm "$1"
-}
-
-# Does some serious deleting.
-deep-rm() {
-  # subshell to avoid surprising caller with shopts.
-  (
-    shopt -s dotglob
-    rm -rf "$1"/!(.curlrc|.netrc|tmp|.|..)
-  )
-}
-
-
 if [[ -e .Buildfile ]]; then
     echo "-----> Buildfile found. Content:"
     cat .Buildfile
 
     (
 
+        shopt -s extglob
+
+        # Does some serious copying.
+        deep-cp() {
+            declare source="$1" target="$2"
+
+            mkdir -p "$target"
+
+            # cp doesn't like being called without source params,
+            # so make sure they expand to something first.
+            # subshell to avoid surprising caller with shopts.
+            (
+                shopt -s nullglob dotglob
+                set -- "$source"/!(tmp|.|..)
+                [[ $# == 0 ]] || cp -a "$@" "$target"
+            )
+        }
+
+        # Does some serious moving.
+        deep-mv() {
+            deep-cp "$1" "$2"
+            deep-rm "$1"
+        }
+
+        # Does some serious deleting.
+        deep-rm() {
+            # subshell to avoid surprising caller with shopts.
+            (
+                shopt -s dotglob
+                rm -rf "$1"/!(.curlrc|.netrc|tmp|.|..)
+            )
+        }
         echo "-----> BIN_DIR=$BIN_DIR"     # /tmp/buildpackgxoEQ/bin
         echo "-----> ROOT_DIR=$ROOT_DIR"   # /tmp/buildpackgxoEQ
         echo "-----> BUILD_DIR=$BUILD_DIR" # /tmp/build_57c17093de9cac714bf607cc0827c297/Stibbons-Squirrel-1c5b6d9
