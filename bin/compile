@@ -106,6 +106,8 @@ if [[ -e .Buildfile ]]; then
     ls .heroku/python
     echo "-----> ls -la .heroku/python/bin"
     ls -la .heroku/python/bin
+    cat .heroku/python/bin/python
+    cat .heroku/python/bin/pip
     find .heroku/python | head -n 200
     which python
     which pip
