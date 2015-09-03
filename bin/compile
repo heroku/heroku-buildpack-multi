@@ -167,6 +167,12 @@ if [[ -e .Buildfile ]]; then
 
         cd $BUILD_DIR
 
+        PROFILE_SCRIPTS=/path/to/*
+        for file in $PROFILE_SCRIPTS; do
+            echo "-----> sourcing $file"
+            source $file
+        do
+
         echo "-----> PWD=$PWD"
         echo "-----> PATH=$PATH"
         echo "-----> PYTHONPATH=$PYTHONPATH"
