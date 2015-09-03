@@ -107,6 +107,8 @@ if [[ -e .Buildfile ]]; then
     find .heroku/python | head -n 200
     which python
     which pip
+    python --version
+    pip --version
 
     source .Buildfile
 fi
