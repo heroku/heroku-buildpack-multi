@@ -170,6 +170,14 @@ if [[ -e .Buildfile ]]; then
 
         echo "-----> ls -la .heroku/node/bin"
         ls -la .heroku/node/bin
+        echo "-----> ls -la .heroku/node/lib/"
+        ls -la .heroku/node/lib/
+        echo "-----> ls -la .heroku/node/lib/node_modules"
+        ls -la .heroku/node/lib/node_modules
+        echo "-----> ls -la .heroku/node/lib/node_modules/npm"
+        ls -la .heroku/node/lib/node_modules/npm
+        echo "-----> ls -la .heroku/node/lib/node_modules/npm/bin"
+        ls -la .heroku/node/lib/node_modules/npm/bin
         which node
         which bower
 
