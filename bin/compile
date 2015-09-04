@@ -194,7 +194,7 @@ if [[ -e .Buildfile ]]; then
         echo "-----> ls -la .heroku/node/lib/node_modules/npm/bin"
         ls -la .heroku/node/lib/node_modules/npm/bin
         which node
-        which bower
+        # which bower => bower is not installed globaly
 
         source .Buildfile
 
