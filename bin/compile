@@ -160,10 +160,10 @@ if [[ -e .Buildfile ]]; then
         echo "-----> PYTHONHOME=$PYTHONHOME"
         echo "-----> ls"
         ls -la
-        echo "-----> ls -la .heroku/python/bin"
-        ls -la .heroku/python/bin
-        echo "-----> ls -la .heroku/vendor"
-        ls -la .heroku/vendor
+        echo "-----> ls -la $BUILD_DIR/.heroku/python/bin"
+        ls -la $BUILD_DIR/.heroku/python/bin
+        echo "-----> ls -la $BUILD_DIR/vendor"
+        ls -la $BUILD_DIR/vendor
         echo "-----> ls -la $BUILD_DIR/node_modules/.bin"
         ls -la $BUILD_DIR/node_modules/.bin
         echo "-----> ls -la /usr/bin"
