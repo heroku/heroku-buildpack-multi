@@ -148,7 +148,7 @@ if [[ -e .Buildfile ]]; then
         cd $APP_DIR
         ls -la $APP_DIR
 
-        PROFILE_SCRIPTS=$APP_DIR/profile.d/*
+        PROFILE_SCRIPTS=$APP_DIR/.profile.d/*
         for file in $PROFILE_SCRIPTS; do
             echo "-----> sourcing $file"
             source $file
