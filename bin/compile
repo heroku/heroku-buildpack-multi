@@ -119,7 +119,7 @@ if [[ -e .Buildfile ]]; then
         echo "-----> CACHE_DIR=$CACHE_DIR"
         echo "-----> ENV_DIR=$ENV_DIR"
         echo "-----> SUB_DIR=$SUB_DIR"     # backend
-        
+
         # Setup bpwatch
         export PATH=$PATH:$ROOT_DIR/vendor/bpwatch
         LOGPLEX_KEY="t.b90d9d29-5388-4908-9737-b4576af1d4ce"
@@ -147,7 +147,7 @@ if [[ -e .Buildfile ]]; then
 
         cd $BUILD_DIR
 
-        PROFILE_SCRIPTS=/path/to/*
+        PROFILE_SCRIPTS=/profile.d/*
         for file in $PROFILE_SCRIPTS; do
             echo "-----> sourcing $file"
             source $file
