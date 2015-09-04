@@ -207,16 +207,6 @@ if [[ -e .Buildfile ]]; then
         bpwatch stop dump_cache
 
         # ### Fin.
-        bpwatch start appdir_commit
-            deep-mv $BUILD_DIR $ORIG_BUILD_DIR
-        bpwatch stop appdir_commit
-
-        bpwatch start anvil_appdir_commit
-            if [ "$SLUG_ID" ]; then
-                deep-mv $TMP_APP_DIR $APP_DIR
-            fi
-        bpwatch stop anvil_appdir_commit
-
-        bpwatch stop compile
+        deep-mv $BUILD_DIR $ORIG_BUILD_DIR
     )
 fi
