@@ -145,7 +145,7 @@ if [[ -e .Buildfile ]]; then
         for file in $PROFILE_SCRIPTS; do
             echo "-----> sourcing $file"
             source $file
-        do
+        done
 
         echo "-----> PWD=$PWD"
         echo "-----> PATH=$PATH"
