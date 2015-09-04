@@ -168,6 +168,11 @@ if [[ -e .Buildfile ]]; then
         python --version
         pip --version
 
+        echo "-----> ls -la .heroku/node/bin"
+        ls -la .heroku/node/bin
+        which node
+        which bower
+
         source .Buildfile
 
         # Store new artifacts in cache.
