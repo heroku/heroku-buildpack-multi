@@ -159,15 +159,10 @@ if [[ -e .Buildfile ]]; then
         echo "-----> PYTHONPATH=$PYTHONPATH"
         echo "-----> PYTHONHOME=$PYTHONHOME"
         echo "-----> ls"
-        ls
-        echo "-----> ls .heroku"
-        ls .heroku
-        echo "-----> ls .heroku/python"
-        ls .heroku/python
+        ls -la
         echo "-----> ls -la .heroku/python/bin"
         ls -la .heroku/python/bin
         cat .heroku/python/bin/pip
-        find .heroku/python | head -n 200
         which python
         which pip
         python --version
