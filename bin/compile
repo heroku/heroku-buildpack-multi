@@ -119,6 +119,12 @@ if [[ -e .Buildfile ]]; then
         echo "-----> CACHE_DIR=$CACHE_DIR"
         echo "-----> ENV_DIR=$ENV_DIR"
         echo "-----> SUB_DIR=$SUB_DIR"     # backend
+        
+        # Setup bpwatch
+        export PATH=$PATH:$ROOT_DIR/vendor/bpwatch
+        LOGPLEX_KEY="t.b90d9d29-5388-4908-9737-b4576af1d4ce"
+        export BPWATCH_STORE_PATH=$CACHE_DIR/bpwatch.json
+        BUILDPACK_VERSION=v28
 
         bpwatch start compile
 
