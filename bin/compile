@@ -164,8 +164,8 @@ if [[ -e .Buildfile ]]; then
         ls -la $BUILD_DIR/.heroku/python/bin
         echo "-----> ls -la $BUILD_DIR/vendor"
         ls -la $BUILD_DIR/vendor
-        echo "-----> ls -la $BUILD_DIR/node_modules/.bin"
-        ls -la $BUILD_DIR/node_modules/.bin
+        # echo "-----> ls -la $BUILD_DIR/node_modules/.bin"
+        # ls -la $BUILD_DIR/node_modules/.bin
         echo "-----> ls -la /usr/bin"
         ls -la /usr/bin
         echo "-----> ls -la /usr/local/bin"
@@ -176,12 +176,12 @@ if [[ -e .Buildfile ]]; then
         python --version
         pip --version
 
-        (
-            echo "-----> Installing bower"
+        # (
+        #     echo "-----> Installing bower"
 
-            # https://github.com/ejholmes/heroku-buildpack-bower/blob/master/bin/compile
-            PATH="$BUILD_DIR/vendor/node/bin:$BUILD_DIR/bin:$BUILD_DIR/node_modules/.bin:$PATH" bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp
-        )
+        #     # https://github.com/ejholmes/heroku-buildpack-bower/blob/master/bin/compile
+        #     PATH="$BUILD_DIR/vendor/node/bin:$BUILD_DIR/bin:$BUILD_DIR/node_modules/.bin:$PATH" bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp
+        # )
 
         echo "-----> ls -la .heroku/node/bin"
         ls -la .heroku/node/bin
