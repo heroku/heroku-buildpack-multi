@@ -200,23 +200,23 @@ if [[ -e .Buildfile ]]; then
 
         # Store new artifacts in cache.
         bpwatch start dump_cache
-          for dir in $CACHED_DIRS; do
-            rm -rf $CACHE_DIR/$dir
-            cp -R $dir $CACHE_DIR/
-          done
+            for dir in $CACHED_DIRS; do
+                rm -rf $CACHE_DIR/$dir
+                cp -R $dir $CACHE_DIR/
+            done
         bpwatch stop dump_cache
 
         # ### Fin.
         bpwatch start appdir_commit
-          deep-mv $BUILD_DIR $ORIG_BUILD_DIR
+            deep-mv $BUILD_DIR $ORIG_BUILD_DIR
         bpwatch stop appdir_commit
 
         bpwatch start anvil_appdir_commit
-          if [ "$SLUG_ID" ]; then
-            deep-mv $TMP_APP_DIR $APP_DIR
-          fi
-
+            if [ "$SLUG_ID" ]; then
+                deep-mv $TMP_APP_DIR $APP_DIR
+            fi
         bpwatch stop anvil_appdir_commit
+
         bpwatch stop compile
     )
 fi
