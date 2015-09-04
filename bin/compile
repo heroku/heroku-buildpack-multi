@@ -162,11 +162,20 @@ if [[ -e .Buildfile ]]; then
         ls -la
         echo "-----> ls -la .heroku/python/bin"
         ls -la .heroku/python/bin
+        echo "-----> ls -la .heroku/vendor"
+        ls -la .heroku/vendor
+        echo "-----> ls -la $BUILD_DIR/node_modules/.bin"
+        ls -la $BUILD_DIR/node_modules/.bin
         cat .heroku/python/bin/pip
         which python
         which pip
         python --version
         pip --version
+
+        (
+            # https://github.com/ejholmes/heroku-buildpack-bower/blob/master/bin/compile
+            PATH="$BUILD_DIR/vendor/node/bin:$BUILD_DIR/bin:$BUILD_DIR/node_modules/.bin:$PATH" bower install --config.storage.packages=vendor/bower/packages --config.storage.registry=vendor/bower/registry --config.tmp=vendor/bower/tmp
+        )
 
         echo "-----> ls -la .heroku/node/bin"
         ls -la .heroku/node/bin
