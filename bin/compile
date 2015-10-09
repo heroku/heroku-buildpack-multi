@@ -2,14 +2,6 @@
 
 set -e
 
-function indent() {
-  c='s/^/       /'
-  case $(uname) in
-    Darwin) sed -l "$c";;
-    *)      sed -u "$c";;
-  esac
-}
-
 unset GIT_DIR
 
 for BUILDPACK in $(cat $1/.buildpacks); do
