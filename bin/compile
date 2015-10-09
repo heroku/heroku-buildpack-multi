@@ -4,6 +4,15 @@ set -e
 
 unset GIT_DIR
 
+echo ""
+echo " !     WARNING"
+echo "       This buildpack (heroku/heroku-buildpack-multi) is deprecated, as"
+echo "       the functionality now exists natively on the Heroku platform."
+echo "       Please upgrade to the new feature at your earliest convenience."
+echo "       Run 'heroku help buildpacks' for more information, or refer to"
+echo "       Dev Center: https://devcenter.heroku.com/articles/buildpacks."
+echo ""
+
 for BUILDPACK in $(cat $1/.buildpacks); do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
