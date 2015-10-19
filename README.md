@@ -1,6 +1,6 @@
 # Heroku buildpack: multi
 
-This buildpack has been deprecated, as the associated functionality exists natively on the Heroku platform. Please refer to https://devcenter.heroku.com/articles/buildpacks for documentation.
+This buildpack has been deprecated, as the associated functionality exists natively on the Heroku platform. Please refer to https://devcenter.heroku.com/articles/buildpacks and https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app for documentation.
 
 Common use cases are:
 
