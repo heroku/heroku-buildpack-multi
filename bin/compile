@@ -12,7 +12,7 @@ function indent() {
 
 unset GIT_DIR
 
-for BUILDPACK in $(cat $1/.buildpacks); do
+for BUILDPACK in $(cat $1/.buildpacks | grep -v '^#'); do
   dir=$(mktemp -t buildpackXXXXX)
   rm -rf $dir
 
