@@ -1,3 +1,21 @@
+# Deprecation Notice
+
+This buildpack is *deprecated* as it's no longer necessary.
+
+Instead, use [native multi-buildpack functionality](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app):
+
+```
+$ heroku buildpacks:clear
+$ heroku buildpacks:add heroku/nodejs
+$ heroku buildpacks:add heroku/scala
+$ heroku buildpacks:add heroku/ruby
+$ heroku buildpacks
+=== nameless-brushlands-4859 Buildpack
+1. heroku/nodejs
+2. heroku/scala
+3. heroku/ruby
+```
+
 # Heroku buildpack: multi
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) that
@@ -24,4 +42,3 @@ From here you will need to create a `.buildpacks` file which contains (in order)
 MIT
 
 ## FAQ
-
