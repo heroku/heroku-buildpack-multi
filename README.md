@@ -21,9 +21,10 @@ From here you will need to create a `.buildpacks` file which contains (in order)
 
 ## Writing a Multi Buildpack Compliant Buildpack
 
-Most buildpacks install one or more system components. When using multi-buildpack it is possible to chain buildpacks together, in the previous example node was installed and then ruby. For this to work Ruby must have access to any environment variables needed to boot up node. For example the node buildpack puts a binary of node on the system then adds that location to the PATH so the system knows where to find it. If ruby does not execute with this new PATH, it won't be able to find the installed version of node. To support this the node buildpack writes out an `export` file that contains the necessarry exports for any other buildpack to execute node. If you are authoring a buildpack, you should consider how other buildpacks may want to access the components you've installed and write out your own export file.
+Most buildpacks install one or more system components. When using multi-buildpack it is possible to chain buildpacks together, in the previous example Node was installed and then Ruby. For this to work Ruby must have access to any environment variables needed to boot up node. For example the Node buildpack puts a node binary on the system then adds that location to the `PATH` so the system knows where to find it. If Ruby does not execute with this new `PATH`
+, it won't be able to find the installed version of Node. To support this the Node buildpack writes out an `export` file that contains the necessarry exports for any other buildpack to execute Node. If you are authoring a buildpack, you should consider how other buildpacks may want to access the components you've installed and write out your own export file.
 
-You do this by writing a to `$buildpack_dir/export` where `$buildpack_dir` is the directory the buildpack is executing in (i.e. the directory above `bin/compile` and `export` is a text file containg bash, for example:
+You do this by writing a to `$buildpack_dir/export` where `$buildpack_dir` is the directory the buildpack is executing in (i.e. the directory above `bin/compile`) and `export` is a text file containg bash, for example:
 
 ```
 export "$PATH:\$PATH"
