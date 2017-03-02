@@ -1,23 +1,25 @@
 # Heroku buildpack: multi
 
-This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) that
-allows one to multiple other buildpacks in a single deploy process. This helps support:
+This buildpack has been deprecated, as the associated functionality exists natively on the Heroku platform. Please refer to https://devcenter.heroku.com/articles/buildpacks and https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app for documentation.
 
-1. Running multiple language buildpacks such as JS for assets and Ruby for your application
-2. Running a daemon process such as [pgbouncer](https://github.com/heroku/heroku-buildpack-pgbouncer) with your application
-3. Pulling in system dependencies.
+Common use cases are:
+
+1. Running multiple language buildpacks in sequence, such as Node.js for asset preparation using NPM libraries followed by the native buildpack of your application;
+1. Launching a daemon process such as [pgbouncer](https://github.com/heroku/heroku-buildpack-pgbouncer) before your application starts;
+1. Pulling in system-level dependencies before the main buildpack processes your application.
 
 ## Usage
 
-To use this buildpack you'll first need to set it as your custom buildpack:
+You **do not have to use this buildpack directly** on Heroku.
 
-    $ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-multi.git
+The `heroku buildpacks:add` command allows you to add multiple buildpacks to your application. This list of buildpacks is then properly visible through the API and command line, and you do not have to maintain a proprietary `.buildpacks` file.
 
-From here you will need to create a `.buildpacks` file which contains (in order) the buildpacks you wish to run when you deploy:
+For example, to have the Node.js buildpack run first, followed by the PHP buildpack (which during a build uses Node.js tools to e.g. prepare assets), run the following commands on your application:
 
-    $ cat .buildpacks
-    https://github.com/heroku/heroku-buildpack-nodejs.git#0198c71daa8
-    https://github.com/heroku/heroku-buildpack-ruby.git#v86
+    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs.git
+    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-php.git
+
+Run `heroku help buildpacks` for a full list of commands available to manage buildpacks.
 
 ## Writing a Multi Buildpack Compliant Buildpack
 
