@@ -16,8 +16,10 @@ The `heroku buildpacks:add` command allows you to add multiple buildpacks to you
 
 For example, to have the Node.js buildpack run first, followed by the PHP buildpack (which during a build uses Node.js tools to e.g. prepare assets), run the following commands on your application:
 
-    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs.git
-    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-php.git
+    $ heroku buildpacks:add heroku/nodejs
+    $ heroku buildpacks:add heroku/php
+
+For third-party buildpacks, you will need to use a full URL (e.g. "`https://github.com/heroku/heroku-buildpack-pgbouncer`") instead of a "`heroku/…`" shorthand name. See https://devcenter.heroku.com/articles/buildpacks#officially-supported-buildpacks for a full list of shorthand names.
 
 Run `heroku help buildpacks` for a full list of commands available to manage buildpacks.
 
