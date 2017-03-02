@@ -36,7 +36,7 @@ export "$PATH:\$PATH"
 
 ## License
 
-MIT
+BSD 3-Clause
 
 ## FAQ
 
