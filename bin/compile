@@ -33,7 +33,14 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
 
+    set +e
     framework=$($dir/bin/detect $1)
+    if [ $? != 0 ]; then
+      echo "Couldn't detect any framework for this buildpack. Exiting."
+      exit 1
+    fi
+    set -e
+
 
     if [ $? == 0 ]; then
       echo "=====> Detected Framework: $framework"
@@ -51,9 +58,6 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       if [ -x $dir/bin/release ]; then
         $dir/bin/release $1 > $1/last_pack_release.out
       fi
-    else
-      echo "Couldn't detect any framework for this buildpack. Exiting."
-      exit 1
     fi
   fi
 done
