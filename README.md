@@ -1,3 +1,21 @@
+# Deprecation Notice
+
+This buildpack is *deprecated* as it's no longer necessary.
+
+Instead, use [native multi-buildpack functionality](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app):
+
+```
+$ heroku buildpacks:clear
+$ heroku buildpacks:add heroku/nodejs
+$ heroku buildpacks:add heroku/scala
+$ heroku buildpacks:add heroku/ruby
+$ heroku buildpacks
+=== nameless-brushlands-4859 Buildpack
+1. heroku/nodejs
+2. heroku/scala
+3. heroku/ruby
+```
+
 # Heroku buildpack: multi
 
 This buildpack is no longer actively maintained. The associated functionality exists natively on the Heroku platform. Please refer to https://devcenter.heroku.com/articles/buildpacks and https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app for documentation.
@@ -39,4 +57,3 @@ export "$PATH:\$PATH"
 BSD 3-Clause
 
 ## FAQ
-
