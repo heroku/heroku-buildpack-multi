@@ -16,7 +16,7 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 
   if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url"
+    echo "=====> Downloading Buildpack: $url version: ${branch:-master}"
 
     if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
       mkdir -p "$dir"
