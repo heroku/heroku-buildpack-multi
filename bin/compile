@@ -16,13 +16,13 @@ for BUILDPACK in $(cat $1/.buildpacks); do
   fi
 
   if [ "$url" != "" ]; then
-    echo "=====> Downloading Buildpack: $url"
+    echo "=====> Downloading Buildpack via Git: $url"
 
     if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
       mkdir -p "$dir"
       curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
     else
-      git clone $url $dir >/dev/null 2>&1
+      git clone --depth=1 $url $dir >/dev/null 2>&1
     fi
     cd $dir
 
