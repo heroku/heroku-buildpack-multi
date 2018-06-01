@@ -22,7 +22,11 @@ for BUILDPACK in $(cat $1/.buildpacks); do
       mkdir -p "$dir"
       curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
     else
-      git clone --depth=1 $url $dir >/dev/null 2>&1
+      if [ "$branch" != "" ]; then
+        git clone --branch=$branch --depth=1 $url $dir >/dev/null 2>&1
+      else
+        git clone --depth=1 $url $dir >/dev/null 2>&1
+      fi
     fi
     cd $dir
 
