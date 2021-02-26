@@ -29,8 +29,6 @@ for BUILDPACK in $(cat $1/.buildpacks); do
     if [ "$branch" != "" ]; then
       git checkout $branch >/dev/null 2>&1
     fi
-    # change back to original directory for the sake of the configured buildpacks
-    cd -
 
     # we'll get errors later if these are needed and don't exist
     chmod -f +x $dir/bin/{detect,compile,release} || true
