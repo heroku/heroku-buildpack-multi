@@ -2,6 +2,8 @@
 
 set -e
 
+[ "$BUILDPACK_XTRACE" ] && set -o xtrace
+
 unset GIT_DIR
 
 for BUILDPACK in $(cat $1/.buildpacks); do
